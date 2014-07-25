@@ -68,6 +68,16 @@ void Adns_5020::reset() {
     //bring it back online
     digitalWrite(nReset, HIGH);
     delay(750);
+    /*
+        TODO consider adding a call to the chip reset via SPI on register 0x39
+    */
+}
+
+//-------------Config----------------------------//
+int Adns_5020::config() {
+    //see datasheet page 23 for more details on the values returned by reading mcr
+    int8_t conf = read(mcr);
+    return (conf==0) ? 500 : 1000;
 }
 
 //-------------Motion_detected-------------------//

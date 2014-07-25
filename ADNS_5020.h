@@ -88,6 +88,11 @@ public:
     //Introduces 1.5 second delay
     void reset();
     
+    // The sensor doesn't directly compute distance.  Instead it computes
+    // counts per inch.  This function returns the counts per inch the 
+    // system is configured to measure.
+    int config();
+    
     // read ADNS register to determine if motion has occurred since the last read
     bool motion_detected();
   
@@ -95,9 +100,11 @@ public:
     int8_t dx();
     int8_t dy();
     
-    // read ADNS Sensor Quality.  See datasheet for details, but taking a moving 
+    // read ADNS Surface Quality.  See datasheet for details, but taking a moving 
     // average on this value will provide a good indication of of how well the 
-    // optical sensor is focused on the surface beneath it.
+    // optical sensor is focused on the surface beneath it. Max value is 144 and
+    // min is 0.  Higher value represents more recognized features in the frame.  Squal
+    // near 0 when there is no discernable surface beneath the sensor.
     uint8_t squal();
     
     // access to the pixel image the sensor sees on the suraface
@@ -110,8 +117,7 @@ public:
         a bool instead of void to show success or failure.
     */    
     void pixels(uint8_t* buffer); 
-    
-    
+            
   
 };
 
